@@ -3,14 +3,12 @@ import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-# Настройка логирования
 logging.basicConfig(
     format="%(asctime)s — %(name)s — %(levelname)s — %(message)s",
     level=logging.INFO,
 )
 logger = logging.getLogger(__name__)
 
-# Обработчик команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Приветствую! В этом боте вы можете получить множество призов, "
@@ -22,19 +20,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     token = os.getenv("TELEGRAM_BOT_TOKEN")
-    
     if not token:
-        logger.error("❌ Ошибка: TELEGRAM_BOT_TOKEN не задан в переменных окружения!")
-        raise RuntimeError("TELEGRAM_BOT_TOKEN должен быть установлен как Variable в Railway!")
+        logger.error("❌ TELEGRAM_BOT_TOKEN не задан в Variables!")
+        raise RuntimeError("TELEGRAM_BOT_TOKEN не задан в Variables!")
 
-    # Инициализация приложения
-    application = Application.builder().token(token).build()
-    application.add_handler(CommandHandler("start", start))
+    app = Application.builder().token(token).build()
+    app.add_handler(CommandHandler("start", start))
 
-    logger.info("✅ Бот запущен! Ждём команду /start")
-    
-    # Запуск поллинга
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    logger.info("✅ Бот запущен — ждём /start")
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
