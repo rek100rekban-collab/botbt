@@ -1,3 +1,1 @@
-python-telegram-bot==20.6
-# Railway по умолчанию берёт Python 3.13 — эта строка ЗАСТАВЛЯЕТ его использовать 3.11
-python_version == 3.11
+python-telegram-bot==20.8
